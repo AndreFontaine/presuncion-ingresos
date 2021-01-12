@@ -42,6 +42,18 @@ const getSalarioMinimo = (year) => {
     return salarios.get(year)
 };
 
+
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+
+  // These options are needed to round to whole numbers if that's what you want.
+  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
+
+formatter.format(2500);
+
 const getIndices = (data) => {
 
     const indices = { b0: 0, b1: 0, b2: 0, b3: 0, b4: 0, b5: 0 };
@@ -373,8 +385,8 @@ const validate = () => {
     var mensual = document.getElementById("mensual");
     
     const res = calcSalary(data);    
-    const anualRes = res.salary.toFixed(2);
-    const mensualRes = (anualRes/12).toFixed(2);
+    const anualRes = formatter.format(res.salary);
+    const mensualRes = formatter.format(res.salary/12);
 
     anual.innerHTML = anualRes;
     mensual.innerHTML = mensualRes;
